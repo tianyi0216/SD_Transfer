@@ -2,7 +2,7 @@ from openai import OpenAI
 import os
 import sys
 
-API_KEY = 'replace with your API key'
+API_KEY = 'Replace with your API key'
 
 model_id = 'gpt-4' # replace with your model ID
 
@@ -26,32 +26,38 @@ def ChatGPT_conversation(conversation):
     return reply
 
 
-def get_bot_response(style):
+def get_ai_response(style, input_caption):
     userText = f"""
-Generate me more instructions like this, use in-content learning, keep similar length and similar style of instructions:
-"Make this image {style} style."
-"Change the image to {style} style."
-"Make the image in {style} style."
-"Apply {style} style to this image."
-"Transform image into {style} art."
-"Convert image to {style} style."
-"Restyle image to {style} look."
-"""
-    messages.append({'role': 'user', 'content': userText})
-    return str(ChatGPT_conversation(messages))
+    Given the following pairs, use in-content learning to generate a single-line output caption that describes the {input_caption} in the style of {style}:
+    Input: {input_caption}
+    Output: {input_caption} in {style} style.
 
-def get_bot_response_2nd_time(style):
-    userText = f"""
-    Give me 50 more instructions like this"""
+    Input: {input_caption}
+    Output: In {style} style, {input_caption}.
+
+    Input: {input_caption}
+    Output: {style} style of {input_caption}.
+
+    Input: {input_caption}
+    Output: {input_caption} in the style of {style}.
+
+    In your output, only include the caption that describes the {input_caption} in the style of {style}, do not include input or any other information.
+    """
     messages.append({'role': 'user', 'content': userText})
     return str(ChatGPT_conversation(messages))
 
 style = sys.argv[1]
-response_1 = get_bot_response(style)
-response_2 = get_bot_response_2nd_time(style)
-with open(f'gpt_response_{style}.txt', 'a') as f:
+input_caption = sys.argv[2]
+fname = sys.argv[3]
+response_1 = get_ai_response(style, input_caption)
+# with open(f'gpt_response_{style}.txt', 'a') as f:
+#     for response in response_1.split('\n'):
+#         f.write(response + '\n')
+#     f.write('\n')
+#     for response in response_2.split('\n'):
+#         f.write(response + '\n')
+
+
+with open(f'{fname}.txt', 'w') as f:
     for response in response_1.split('\n'):
-        f.write(response + '\n')
-    f.write('\n')
-    for response in response_2.split('\n'):
         f.write(response + '\n')
