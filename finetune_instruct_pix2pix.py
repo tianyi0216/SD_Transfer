@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# This file is not originally written by us!!! It is a script from the Hugging Face team. We have made some modifications to it to suit our needs.
+
 """Script to fine-tune InstructPix2Pix."""
 
 import argparse
